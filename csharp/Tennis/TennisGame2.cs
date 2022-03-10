@@ -107,7 +107,7 @@ namespace Tennis
         public OutOfRangeScoreException() { }
 
         public OutOfRangeScoreException(int score)
-            : base(String.Format("Score must be between 0 and 3. Got: {0}", score))
+            : base(string.Format("Score must be between 0 and 3. Got: {0}", score))
         {
 
         }
