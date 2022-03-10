@@ -30,25 +30,32 @@ namespace Tennis
                 default: throw new OutOfRangeScoreException(numericScore);
             }
         }
+        private string GetPlayer1Score()
+        {
+            return GetTextScore(_player1Points);
+        }
+        private string GetPlayer2Score()
+        {
+            return GetTextScore(_player2Points);
+        }
 
         public string GetScore()
         {
             var score = "";
             if (_player1Points == _player2Points && _player1Points < 3)
             {
-                score = GetTextScore(_player1Points);
-                score += "-All";
+                score = $"{GetPlayer1Score()}-All";
             }
             if (_player1Points == _player2Points && _player1Points > 2)
                 score = "Deuce";
 
-            if (_player1Points > 0 && _player2Points == 0)
+            if (_player1Points > 0 && _player2Points == 0 && _player1Points < 4)
             {
                 score = GetTextScore(_player1Points);
                 _player2Result = "Love";
                 score = _player1Result + "-" + _player2Result;
             }
-            if (_player2Points > 0 && _player1Points == 0)
+            if (_player2Points > 0 && _player1Points == 0 && _player2Points < 4)
             {
                 score = GetTextScore(_player2Points);
                 _player1Result = "Love";
