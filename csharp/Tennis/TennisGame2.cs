@@ -7,16 +7,8 @@ namespace Tennis
         private int _player1Points = 0;
         private int _player2Points = 0;
 
-        private string _player1Result = string.Empty;
-        private string _player2Result = string.Empty;
-        private readonly string _player1Name;
-        private readonly string _player2Name;
-
         public TennisGame2(string player1Name, string player2Name)
         {
-            _player1Name = player1Name;
-            _player1Points = 0;
-            _player2Name = player2Name;
         }
         private string GetTextScore(int numericScore)
         {
@@ -38,7 +30,6 @@ namespace Tennis
             return GetTextScore(_player2Points);
         }
         private bool IsLateGame => _player1Points >= 4 || _player2Points >= 4;
-        private bool IsEarlyGame => !IsLateGame;
         private int Advantage()
         {
             return Math.Abs(_player1Points - _player2Points);
@@ -46,7 +37,6 @@ namespace Tennis
         private bool IsAdvantageAtLeast2 => Advantage() >= 2;
         private bool IsGameOver => IsLateGame && IsAdvantageAtLeast2;
         private bool IsPlayer1Ahead => _player1Points > _player2Points;
-        private bool IsPlayer2Ahead => _player2Points > _player1Points;
         private bool IsEqualScore => _player1Points == _player2Points;
         private bool IsDeuce => _player1Points == _player2Points && _player1Points > 2;
 
@@ -123,4 +113,3 @@ namespace Tennis
         }
     }
 }
-
