@@ -60,7 +60,7 @@ namespace Tennis
                     return "Advantage player2";
             }
 
-            if(IsEqualScore)
+            if (IsEqualScore)
                 return $"{GetPlayer1Score()}-All";
 
             return $"{GetPlayer1Score()}-{GetPlayer2Score()}";
