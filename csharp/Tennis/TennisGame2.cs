@@ -49,30 +49,9 @@ namespace Tennis
             if (_player1Points == _player2Points && _player1Points > 2)
                 score = "Deuce";
 
-            if (_player1Points > 0 && _player2Points == 0 && _player1Points < 4)
+            if (_player1Points != _player2Points && _player1Points < 4 && _player2Points < 4)
             {
-                score = GetTextScore(_player1Points);
-                _player2Result = "Love";
-                score = _player1Result + "-" + _player2Result;
-            }
-            if (_player2Points > 0 && _player1Points == 0 && _player2Points < 4)
-            {
-                score = GetTextScore(_player2Points);
-                _player1Result = "Love";
-                score = _player1Result + "-" + _player2Result;
-            }
-
-            if (_player1Points > _player2Points && _player1Points < 4)
-            {
-                _player1Result = GetTextScore(_player1Points);
-                _player2Result = GetTextScore(_player2Points);
-                score = _player1Result + "-" + _player2Result;
-            }
-            if (_player2Points > _player1Points && _player2Points < 4)
-            {
-                _player1Result = GetTextScore(_player1Points);
-                _player2Result = GetTextScore(_player2Points);
-                score = _player1Result + "-" + _player2Result;
+                score = $"{GetPlayer1Score()}-{GetPlayer2Score()}";
             }
 
             if (_player1Points > _player2Points && _player2Points >= 3)
@@ -85,11 +64,11 @@ namespace Tennis
                 score = "Advantage player2";
             }
 
-            if (_player1Points >= 4 && _player2Points >= 0 && (_player1Points - _player2Points) >= 2)
+            if (_player1Points >= 4 && (_player1Points - _player2Points) >= 2)
             {
                 score = "Win for player1";
             }
-            if (_player2Points >= 4 && _player1Points >= 0 && (_player2Points - _player1Points) >= 2)
+            if (_player2Points >= 4 && (_player2Points - _player1Points) >= 2)
             {
                 score = "Win for player2";
             }
