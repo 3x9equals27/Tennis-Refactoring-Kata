@@ -18,7 +18,6 @@ namespace Tennis
             _player1Points = 0;
             _player2Name = player2Name;
         }
-
         private string GetTextScore(int numericScore)
         {
             switch (numericScore)
@@ -38,41 +37,43 @@ namespace Tennis
         {
             return GetTextScore(_player2Points);
         }
+        private bool IsLateGame => _player1Points >= 4 || _player2Points >= 4;
+        private bool IsEarlyGame => !IsLateGame;
+        private int Advantage()
+        {
+            return Math.Abs(_player1Points - _player2Points);
+        }
+        private bool IsAdvantageAtLeast2 => Advantage() >= 2;
+        private bool IsGameOver => IsLateGame && IsAdvantageAtLeast2;
+        private bool IsPlayer1Ahead => _player1Points > _player2Points;
+        private bool IsPlayer2Ahead => _player2Points > _player1Points;
+        private bool IsEqualScore => _player1Points == _player2Points;
+        private bool IsDeuce => _player1Points == _player2Points && _player1Points > 2;
 
         public string GetScore()
         {
-            var score = "";
-            if (_player1Points == _player2Points && _player1Points < 3)
+            if (IsGameOver)
             {
-                score = $"{GetPlayer1Score()}-All";
-            }
-            if (_player1Points == _player2Points && _player1Points > 2)
-                score = "Deuce";
-
-            if (_player1Points != _player2Points && _player1Points < 4 && _player2Points < 4)
-            {
-                score = $"{GetPlayer1Score()}-{GetPlayer2Score()}";
+                if (IsPlayer1Ahead)
+                    return "Win for player1";
+                else
+                    return "Win for player2";
             }
 
-            if (_player1Points > _player2Points && _player2Points >= 3)
+            if (IsDeuce) return "Deuce";
+
+            if (IsLateGame)
             {
-                score = "Advantage player1";
+                if (IsPlayer1Ahead)
+                    return "Advantage player1";
+                else
+                    return "Advantage player2";
             }
 
-            if (_player2Points > _player1Points && _player1Points >= 3)
-            {
-                score = "Advantage player2";
-            }
+            if(IsEqualScore)
+                return $"{GetPlayer1Score()}-All";
 
-            if (_player1Points >= 4 && (_player1Points - _player2Points) >= 2)
-            {
-                score = "Win for player1";
-            }
-            if (_player2Points >= 4 && (_player2Points - _player1Points) >= 2)
-            {
-                score = "Win for player2";
-            }
-            return score;
+            return $"{GetPlayer1Score()}-{GetPlayer2Score()}";
         }
 
         public void SetP1Score(int number)
