@@ -1,3 +1,5 @@
+using System;
+
 namespace Tennis
 {
     public class TennisGame2 : ITennisGame
@@ -12,9 +14,21 @@ namespace Tennis
 
         public TennisGame2(string player1Name, string player2Name)
         {
-            this._player1Name = player1Name;
+            _player1Name = player1Name;
             _player1Points = 0;
-            this._player2Name = player2Name;
+            _player2Name = player2Name;
+        }
+
+        private string GetTextScore(int numericScore)
+        {
+            switch (numericScore)
+            {
+                case 0: return "Love";
+                case 1: return "Fifteen";
+                case 2: return "Thirty";
+                case 3: return "Forty";
+                default: throw new OutOfRangeScoreException(numericScore);
+            }
         }
 
         public string GetScore()
@@ -22,12 +36,7 @@ namespace Tennis
             var score = "";
             if (_player1Points == _player2Points && _player1Points < 3)
             {
-                if (_player1Points == 0)
-                    score = "Love";
-                if (_player1Points == 1)
-                    score = "Fifteen";
-                if (_player1Points == 2)
-                    score = "Thirty";
+                score = GetTextScore(_player1Points);
                 score += "-All";
             }
             if (_player1Points == _player2Points && _player1Points > 2)
@@ -35,51 +44,27 @@ namespace Tennis
 
             if (_player1Points > 0 && _player2Points == 0)
             {
-                if (_player1Points == 1)
-                    _player1Result = "Fifteen";
-                if (_player1Points == 2)
-                    _player1Result = "Thirty";
-                if (_player1Points == 3)
-                    _player1Result = "Forty";
-
+                score = GetTextScore(_player1Points);
                 _player2Result = "Love";
                 score = _player1Result + "-" + _player2Result;
             }
             if (_player2Points > 0 && _player1Points == 0)
             {
-                if (_player2Points == 1)
-                    _player2Result = "Fifteen";
-                if (_player2Points == 2)
-                    _player2Result = "Thirty";
-                if (_player2Points == 3)
-                    _player2Result = "Forty";
-
+                score = GetTextScore(_player2Points);
                 _player1Result = "Love";
                 score = _player1Result + "-" + _player2Result;
             }
 
             if (_player1Points > _player2Points && _player1Points < 4)
             {
-                if (_player1Points == 2)
-                    _player1Result = "Thirty";
-                if (_player1Points == 3)
-                    _player1Result = "Forty";
-                if (_player2Points == 1)
-                    _player2Result = "Fifteen";
-                if (_player2Points == 2)
-                    _player2Result = "Thirty";
+                _player1Result = GetTextScore(_player1Points);
+                _player2Result = GetTextScore(_player2Points);
                 score = _player1Result + "-" + _player2Result;
             }
             if (_player2Points > _player1Points && _player2Points < 4)
             {
-                if (_player2Points == 2)
-                    _player2Result = "Thirty";
-                if (_player2Points == 3)
-                    _player2Result = "Forty";
-                if (_player1Points == 1)
-                    _player1Result = "Fifteen";
-                if (_player1Points == 2)
-                    _player1Result = "Thirty";
+                _player1Result = GetTextScore(_player1Points);
+                _player2Result = GetTextScore(_player2Points);
                 score = _player1Result + "-" + _player2Result;
             }
 
@@ -138,6 +123,17 @@ namespace Tennis
                 P2Score();
         }
 
+    }
+
+    class OutOfRangeScoreException : Exception
+    {
+        public OutOfRangeScoreException() { }
+
+        public OutOfRangeScoreException(int score)
+            : base(String.Format("Score must be between 0 and 3. Got: {0}", score))
+        {
+
+        }
     }
 }
 
